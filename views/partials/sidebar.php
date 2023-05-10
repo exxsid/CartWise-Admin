@@ -21,9 +21,35 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Nav Item - Verify -->
+    <li class="nav-item active">
+        <a class="nav-link" href="#"> <!-- TODO -->
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span class=" sb-txt ">Verify Grocery Store</span></a>
+    </li>
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <hr class="sidebar-divider">
+
+    <!-- Nav Item - Stores -->
+    <li class="nav-item active">
+        <a class="nav-link" href="#"> <!-- TODO -->
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span class=" sb-txt ">Grocery Stores</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Nav Item - Customers -->
+    <li class="nav-item active">
+        <a class="nav-link" href="#"> <!-- TODO -->
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span class=" sb-txt ">Customers</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
