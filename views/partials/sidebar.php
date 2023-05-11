@@ -14,7 +14,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="index.php"> <!-- TODO -->
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="material-icons" style="font-size: 24px; color: #0F2725;">dashboard</i>
             <span class=" sb-txt ">Dashboard</span></a>
     </li>
 
@@ -24,7 +24,7 @@
     <!-- Nav Item - Verify -->
     <li class="nav-item active">
         <a class="nav-link" href="#"> <!-- TODO -->
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="material-icons" style="font-size: 24px; color: #0F2725;">verified_user</i>
             <span class=" sb-txt ">Verify Grocery Store</span></a>
     </li>
 
@@ -34,7 +34,7 @@
     <!-- Nav Item - Stores -->
     <li class="nav-item active">
         <a class="nav-link" href="#"> <!-- TODO -->
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="material-icons" style="font-size: 24px; color: #0F2725;">local_convenience_store</i>
             <span class=" sb-txt ">Grocery Stores</span></a>
     </li>
 
@@ -44,7 +44,7 @@
     <!-- Nav Item - Customers -->
     <li class="nav-item active">
         <a class="nav-link" href="#"> <!-- TODO -->
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="material-icons" style="font-size: 24px; color: #0F2725;">person</i>
             <span class=" sb-txt ">Customers</span></a>
     </li>
 

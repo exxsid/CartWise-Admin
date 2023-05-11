@@ -12629,3 +12629,8 @@ body.sidebar-toggled footer.sticky-footer {
     max-height: 100%;
     display: block;
 }
+
+.side-bar-icon {
+    font-size: 24px;
+    color: #0F2725;
+}
