@@ -33,7 +33,7 @@
 
     <!-- Nav Item - Stores -->
     <li class="nav-item active">
-        <a class="nav-link" href="#"> <!-- TODO -->
+        <a class="nav-link" href="grocery.php"> <!-- TODO -->
             <i class="material-icons" style="font-size: 24px; color: #0F2725;">local_convenience_store</i>
             <span class=" sb-txt ">Grocery Stores</span></a>
     </li>
