@@ -43,7 +43,7 @@
 
     <!-- Nav Item - Customers -->
     <li class="nav-item active">
-        <a class="nav-link" href="#"> <!-- TODO -->
+        <a class="nav-link" href="customer.php"> <!-- TODO -->
             <i class="material-icons" style="font-size: 24px; color: #0F2725;">person</i>
             <span class=" sb-txt ">Customers</span></a>
     </li>
