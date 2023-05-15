@@ -23,7 +23,7 @@
 
     <!-- Nav Item - Verify -->
     <li class="nav-item active">
-        <a class="nav-link" href="#"> <!-- TODO -->
+        <a class="nav-link" href="verify.php"> <!-- TODO -->
             <i class="material-icons" style="font-size: 24px; color: #0F2725;">verified_user</i>
             <span class=" sb-txt ">Verify Grocery Store</span></a>
     </li>
