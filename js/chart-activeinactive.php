@@ -1,9 +1,9 @@
 <?php
-include './includes/activeinactiveusers.php'
+require_once 'includes\activeinactiveusers.php'
 ?>
 
 <script>
-    window.onload = function() {
+    window.addEventListener("load", () => {
 
         var chart = new CanvasJS.Chart("chartContainer", {
             theme: "light2",
@@ -80,5 +80,5 @@ include './includes/activeinactiveusers.php'
             chart.render();
         }
 
-    }
+    });
 </script>

@@ -119,7 +119,20 @@ include "views/partials/header.php";
                         </div>
 
                         <!-- daily count of created list -->
-
+                        <div class="col-xl-8 col-lg-7 in-active-chart">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Daily Created List</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <div id="chartContainerDaily" style="height: 100%; width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -127,10 +140,10 @@ include "views/partials/header.php";
                 </div>
                 <!-- End of Main Content -->
 
-                <!-- Footer -->
-                <?php include "views/partials/footer.php" ?>
-                <!-- End of Footer -->
-
                 <!-- Chart -->
                 <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
                 <?php include './js/chart-activeinactive.php' ?>
+                <?php include './js/chart-dailycreatedlist.php' ?>
+                <!-- Footer -->
+                <?php include "views/partials/footer.php" ?>
+                <!-- End of Footer -->
