@@ -12634,3 +12634,7 @@ body.sidebar-toggled footer.sticky-footer {
     font-size: 24px;
     color: #0F2725;
 }
+
+.in-active-chart {
+    max-width: 100%;
+}
