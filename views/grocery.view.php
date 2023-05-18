@@ -30,6 +30,7 @@ include "views/partials/header.php";
 
                     <!-- Contents goes here -->
 
+
                 </div>
                 <!-- /.container-fluid -->
 

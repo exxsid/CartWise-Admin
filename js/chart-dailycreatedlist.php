@@ -6,9 +6,7 @@ require_once './includes/dailycreatedlist.php'
     window.addEventListener("load", () => {
 
         var dailyChart = new CanvasJS.Chart("chartContainerDaily", {
-            title: {
-                text: "Viscosity of Ethanol at Different Temperatures"
-            },
+
             axisX: {
                 title: "Temperature",
                 suffix: " °C"
