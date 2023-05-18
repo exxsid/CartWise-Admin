@@ -7,12 +7,6 @@ require_once 'includes\activeinactiveusers.php'
 
         var chart = new CanvasJS.Chart("chartContainer", {
             theme: "light2",
-            title: {
-                text: "Generation of Electricity in US - 2007 to 2016"
-            },
-            subtitles: [{
-                text: "In Gigawatt Hours"
-            }],
             legend: {
                 cursor: "pointer",
                 itemclick: toggleDataSeries
