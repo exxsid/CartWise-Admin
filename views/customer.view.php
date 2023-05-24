@@ -1,5 +1,9 @@
 <?php
+require_once 'utils/db.php';
 include "views/partials/header.php";
+
+$customers = $db->query("SELECT * FROM customer 
+LEFT JOIN users ON customer.user_id = users.id;");
 ?>
 
 <body id="page-top">
@@ -30,42 +34,43 @@ include "views/partials/header.php";
 
                     <!-- Contents goes here -->
 
-                    <div class="mx-5">
+                    <div class="mx-2">
                         <table class="table table-striped">
+                            <!-- table header -->
                             <thead>
                                 <tr class="table-primary">
                                     <th scope="col">First Name</th>
                                     <th scope="col">Last Name</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Phone Number</th>
                                     <th scope="col">Password</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
+                            <!-- end table header -->
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php
+                                if (mysqli_num_rows($customers)) :
+                                    while ($customer = mysqli_fetch_assoc($customers)) :
+                                ?>
+                                        <tr>
+                                            <th scope="row"><?= $customer['firstname'] ?></th>
+                                            <td><?= $customer['lastname'] ?></td>
+                                            <td><?= $customer['email'] ?></td>
+                                            <td><?= $customer['username'] ?></td>
+                                            <td><?= $customer['phone_number'] ?></td>
+                                            <td><?= $customer['password'] ?></td>
+                                            <td>
+                                                <a href=<?= "?details=" . $customer['user_id'] ?>>Details</a>
+                                                <a href=<?= "?delete=" . $customer['user_id'] ?>>Delete</a>
+                                                <a href=<?= "?edit=" . $customer['user_id'] ?>>Edit</a>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    endwhile;
+                                endif;
+                                ?>
                             </tbody>
                         </table>
                     </div>

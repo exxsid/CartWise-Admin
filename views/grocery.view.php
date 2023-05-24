@@ -1,5 +1,8 @@
 <?php
+require_once 'utils/db.php';
 include "views/partials/header.php";
+
+$stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_store.user_id = users.id WHERE status = 'Verified' ");
 ?>
 
 <body id="page-top">
@@ -29,7 +32,7 @@ include "views/partials/header.php";
                     </div>
 
                     <!-- Contents goes here -->
-                    <div class="mx-5">
+                    <div class="mx-2">
                         <table class="table table-striped">
                             <thead>
                                 <tr class="table-primary">
@@ -37,30 +40,32 @@ include "views/partials/header.php";
                                     <th scope="col">Address</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Phone Number</th>
+                                    <th scope="col">TIN</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                    <td></td>
-                                </tr>
+                                <?php
+                                if (mysqli_num_rows($stores)) :
+                                    while ($store = mysqli_fetch_assoc($stores)) :
+                                ?>
+                                        <tr>
+                                            <th scope="row"><?= $store['store_name'] ?></th>
+                                            <td><?= $store['address'] ?></td>
+                                            <td><?= $store['email'] ?></td>
+                                            <td><?= $store['phone_number'] ?></td>
+                                            <td><?= $store['tin'] ?></td>
+                                            <td>
+                                                <a href=<?= "?details=" . $store['user_id'] ?>>Details</a>
+                                                <a href=<?= "?delete=" . $store['user_id'] ?>>Delete</a>
+                                                <a href=<?= "?edit=" . $store['user_id'] ?>>Edit</a>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    endwhile;
+                                endif;
+                                ?>
+
                             </tbody>
                         </table>
                     </div>
