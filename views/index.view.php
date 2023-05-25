@@ -1,5 +1,10 @@
 <?php
 include "views/partials/header.php";
+include_once "./utils/db.php";
+
+$numStores = $db->query("SELECT COUNT(id) AS count FROM grocery_store where status = 'Verified'");
+$numCustomers = $db->query("SELECT COUNT(id) AS count FROM customer");
+$numProdList = $db->query("SELECT COUNT(id) AS count FROM customer_prod_list")
 ?>
 
 <body id="page-top">
@@ -41,7 +46,7 @@ include "views/partials/header.php";
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 <h4>Total Grocery Stores</h4>
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= mysqli_fetch_assoc($numStores)['count'] ?></div>
                                             <span>Stores</span>
                                         </div>
                                         <div class="col-auto">
@@ -62,7 +67,7 @@ include "views/partials/header.php";
                                                 <h4>Total Customers</h4>
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                1,000
+                                                <?= mysqli_fetch_assoc($numCustomers)['count'] ?>
                                             </div>
                                             <span>Customers</span>
                                         </div>
@@ -84,7 +89,7 @@ include "views/partials/header.php";
                                                 <h4>Total Grocery Lists</h4>
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                2,546
+                                                <?= mysqli_fetch_assoc($numProdList)['count'] ?>
                                             </div>
                                             <span>List</span>
                                         </div>
