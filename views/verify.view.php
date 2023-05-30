@@ -59,7 +59,7 @@ $stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_s
                                             <td>
                                                 <a href="#" class="badge btn-info details_btn" data-id="<?= $store['user_id'] ?>" onclick="handleDetailsBtn(event)">DETAILS</a>
                                                 <a href="#" class="badge btn-primary edit_btn" data-id="<?= $store['user_id'] ?>" onclick="handleEditBtn(event)">EDIT</a>
-                                                <a href="#" class="badge btn-danger delete_btn">DELETE</a>
+                                                <a href="#" class="badge btn-danger delete_btn" data-id="<?= $store['user_id'] ?>" onclick="handleDeleteBtn(event)">DELETE</a>
                                             </td>
                                         </tr>
                                 <?php
@@ -155,6 +155,28 @@ $stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_s
                 </div>
             </div>
 
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="idDelete">
+                            <h4 class="deleteMessage"></h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteConfirmBtn()">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
             <script>
                 function handleDetailsBtn(event) {
@@ -238,6 +260,45 @@ $stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_s
                         }
                     };
 
+                    xhr.send();
+                }
+
+                function handleDeleteBtn(event) {
+                    event.preventDefault();
+                    var element = event.target;
+                    var id = element.getAttribute('data-id');
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost/cartwise-admin/utils/fetchverify.php?id=" + id, true);
+                    xhr.responseType = "text";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            displayDeleteModal(response[0]);
+                        }
+                    }
+                    xhr.send();
+                }
+
+                function displayDeleteModal(data) {
+                    document.getElementsByClassName('deleteMessage')[0].textContent = `Are your sure you want to delete ${data.store_name}?`;
+                    document.getElementById('idDelete').value = data.user_id;
+
+                    $("#deleteModal").modal("show");
+                }
+
+                function deleteConfirmBtn() {
+                    var id = document.getElementById('idDelete').value;
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost/cartwise-admin/utils/fetchverify.php?delete=" + id, true);
+                    xhr.responseType = "text";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            $('#deleteModal').modal('hide');
+                        }
+                    }
                     xhr.send();
                 }
             </script>
