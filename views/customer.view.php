@@ -63,7 +63,7 @@ LEFT JOIN users ON customer.user_id = users.id;");
                                             <td><?= $customer['password'] ?></td>
                                             <td>
                                                 <a href="#" class="badge btn-info details_btn" data-id="<?= $customer['user_id'] ?>" onclick="handleDetailsBtn(event)">DETAILS</a>
-                                                <a href="#" class="badge btn-primary edit_btn">EDIT</a>
+                                                <a href="#" class="badge btn-primary edit_btn" data-id="<?= $customer['user_id'] ?>" onclick="handleEditBtn(event)">EDIT</a>
                                                 <a href="#" class="badge btn-danger delete_btn">DELETE</a>
                                             </td>
                                         </tr>
@@ -105,6 +105,54 @@ LEFT JOIN users ON customer.user_id = users.id;");
                     </div>
                 </div>
 
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <input type="hidden" id="idEdit">
+                                    <div class="col">
+                                        <label for="">First Name</label>
+                                        <input type="text" id="fnameEdit" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Last Name</label>
+                                        <input type="text" id="lnameEdit" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Email</label>
+                                        <input type="text" id="emailEdit" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Username</label>
+                                        <input type="text" id="usernameEdit" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Phone Number</label>
+                                        <input type="text" id="phoneEdit" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Password</label>
+                                        <input type="text" id="passwordEdit" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" onclick="saveEdit()">Save</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!-- End of Main Content -->
 
@@ -135,6 +183,57 @@ LEFT JOIN users ON customer.user_id = users.id;");
                     document.getElementsByClassName('password')[0].textContent = "Password: " + data.password;
 
                     $('#viewModal').modal('show')
+                }
+
+                function handleEditBtn(event) {
+                    event.preventDefault();
+                    var element = event.target;
+                    var id = element.getAttribute('data-id');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost/cartwise-admin/utils/fetchcustomers.php?id=" + id, true);
+                    xhr.responseType = "text";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            displayEditModal(response[0]);
+                        }
+                    }
+                    xhr.send();
+                }
+
+                function displayEditModal(data) {
+                    document.getElementById('idEdit').value = data.id;
+                    document.getElementById('fnameEdit').value = data.firstname;
+                    document.getElementById('lnameEdit').value = data.lastname;
+                    document.getElementById('emailEdit').value = data.email;
+                    document.getElementById('usernameEdit').value = data.username;
+                    document.getElementById('phoneEdit').value = data.phone_number;
+                    document.getElementById('passwordEdit').value = data.password;
+
+                    $("#editModal").modal('show');
+                }
+
+                function saveEdit() {
+                    var id = document.getElementById('idEdit').value;
+                    var fname = document.getElementById('fnameEdit').value;
+                    var lname = document.getElementById('lnameEdit').value;
+                    var email = document.getElementById('emailEdit').value;
+                    var uname = document.getElementById('usernameEdit').value;
+                    var phone = document.getElementById('phoneEdit').value;
+                    var password = document.getElementById('passwordEdit').value;
+
+                    var xhr = new XMLHttpRequest();
+                    var params = `?id=${id}&fname=${fname}&lname=${lname}&email=${email}&uname=${uname}&phone=${phone}&password=${password}`;
+                    xhr.open("GET", "http://localhost/cartwise-admin/utils/fetchcustomers.php" + params, true);
+                    xhr.responseType = "text";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = xhr.responseText;
+                            $('#editModal').modal('hide');
+                        }
+                    }
+
+                    xhr.send();
                 }
             </script>
 
