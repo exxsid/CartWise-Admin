@@ -56,6 +56,22 @@ LEFT JOIN users ON customer.user_id = users.id WHERE user_id = $id");
 
     header("Content-type: application/json");
     echo json_encode($result_array);
+} else if (isset($_GET['delete'])) {
+    $result = $db->query("DELETE FROM users WHERE id = {$_GET['delete']};");
+
+    if ($result) {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        echo json_encode(["status" => 1]);
+    } else {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        echo json_encode(["status" => 0]);
+    }
 } else {
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
