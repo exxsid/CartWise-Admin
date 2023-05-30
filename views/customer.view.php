@@ -62,9 +62,9 @@ LEFT JOIN users ON customer.user_id = users.id;");
                                             <td><?= $customer['phone_number'] ?></td>
                                             <td><?= $customer['password'] ?></td>
                                             <td>
-                                                <a href=<?= "?details=" . $customer['user_id'] ?>>Details</a>
-                                                <a href=<?= "?delete=" . $customer['user_id'] ?>>Delete</a>
-                                                <a href=<?= "?edit=" . $customer['user_id'] ?>>Edit</a>
+                                                <a href="#" class="badge btn-info details_btn" data-id="<?= $customer['user_id'] ?>" onclick="handleDetailsBtn(event)">DETAILS</a>
+                                                <a href="#" class="badge btn-primary edit_btn">EDIT</a>
+                                                <a href="#" class="badge btn-danger delete_btn">DELETE</a>
                                             </td>
                                         </tr>
                                 <?php
@@ -80,8 +80,63 @@ LEFT JOIN users ON customer.user_id = users.id;");
                 </div>
                 <!-- /.container-fluid -->
 
+                <!-- View Modal -->
+                <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="fname"></h4>
+                                <h4 class="lname"></h4>
+                                <h4 class="email"></h4>
+                                <h4 class="username"></h4>
+                                <h4 class="phonenumber"></h4>
+                                <h4 class="password"></h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!-- End of Main Content -->
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+            <script>
+                function handleDetailsBtn(event) {
+                    event.preventDefault();
+                    var element = event.target;
+                    var id = element.getAttribute('data-id');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost/cartwise-admin/utils/fetchcustomers.php?id=" + id, true);
+                    xhr.responseType = "text"
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            displayData(response[0]);
+                        }
+                    };
+                    xhr.send();
+                }
+
+                function displayData(data) {
+                    document.getElementsByClassName('fname')[0].textContent = "Firtname: " + data.firstname;
+                    document.getElementsByClassName('lname')[0].textContent = "Lastname: " + data.lastname;
+                    document.getElementsByClassName('email')[0].textContent = "Email: " + data.email;
+                    document.getElementsByClassName('username')[0].textContent = "Username: " + data.username;
+                    document.getElementsByClassName('phonenumber')[0].textContent = "Phone Number: " + data.phone_number;
+                    document.getElementsByClassName('password')[0].textContent = "Password: " + data.password;
+
+                    $('#viewModal').modal('show')
+                }
+            </script>
 
             <!-- Footer -->
             <?php include "views/partials/footer.php" ?>
