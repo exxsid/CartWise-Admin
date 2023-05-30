@@ -59,7 +59,7 @@ $stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_s
                                             <td><?= $store['tin'] ?></td>
                                             <td>
                                                 <a href="#" class="badge btn-info details_btn" data-id="<?= $store['user_id'] ?>" onclick="handleDetailsBtn(event)">DETAILS</a>
-                                                <a href="#" class="badge btn-primary edit_btn">EDIT</a>
+                                                <a href="#" class="badge btn-primary edit_btn" data-id="<?= $store['user_id'] ?>" onclick="handleEditBtn(event)">EDIT</a>
                                                 <a href="#" class="badge btn-danger delete_btn">DELETE</a>
                                             </td>
                                         </tr>
@@ -102,6 +102,57 @@ $stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_s
                 </div>
             </div>
 
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <input type="hidden" id="idEdit">
+                                <div class="col">
+                                    <label for="">Store Name</label>
+                                    <input type="text" id="nameEdit" />
+                                </div>
+                                <div class="col">
+                                    <label for="">Address</label>
+                                    <input type="text" id="addressEdit" />
+                                </div>
+                                <div class="col">
+                                    <label for="">Email</label>
+                                    <input type="text" id="emailEdit" />
+                                </div>
+                                <div class="col">
+                                    <label for="">Phone Number</label>
+                                    <input type="text" id="phoneEdit" />
+                                </div>
+                                <div class="col">
+                                    <label for="">TIN</label>
+                                    <input type="text" id="tinEdit" />
+                                </div>
+                                <div class="col">
+                                    <label for="">Status</label>
+                                    <select name="" id="statusEdit">
+                                        <option value="verified">Verified</option>
+                                        <option value="notverified">Not Verified</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" onclick="saveEdit()">Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
             <script>
                 function handleDetailsBtn(event) {
@@ -128,6 +179,64 @@ $stores = $db->query("SELECT * FROM `grocery_store` LEFT JOIN users ON grocery_s
                     document.getElementsByClassName('tin')[0].textContent = "TIN: " + data.tin;
 
                     $('#viewModal').modal('show')
+                }
+
+                function handleEditBtn(event) {
+                    event.preventDefault();
+                    var element = event.target;
+                    var id = element.getAttribute('data-id')
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost/cartwise-admin/utils/fetchgrocery.php?id=" + id, true);
+                    xhr.responseType = "text";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            displayEditModal(response[0]);
+                        }
+                    }
+                    xhr.send();
+                }
+
+                function displayEditModal(data) {
+                    document.getElementById('idEdit').value = data.id;
+                    document.getElementById('nameEdit').value = data.store_name;
+                    document.getElementById('addressEdit').value = data.address;
+                    document.getElementById('emailEdit').value = data.email;
+                    document.getElementById('phoneEdit').value = data.phone_number;
+                    document.getElementById('tinEdit').value = data.tin;
+                    document.getElementById('statusEdit').value = data.status == "Verified" ? "verified" : "notverified";
+                    var select = document.getElementById("statusEdit");
+                    var selectedOption = select.options[select.selectedIndex];
+                    var selectedText = selectedOption.text;
+                    console.log(selectedText);
+                    $('#editModal').modal('show');
+                }
+
+                function saveEdit() {
+                    var xhr = new XMLHttpRequest();
+                    var url = "http://localhost/cartwise-admin/utils/fetchgrocery.php";
+                    var id = document.getElementById('idEdit').value;
+                    var name = document.getElementById('nameEdit').value;
+                    var address = document.getElementById('addressEdit').value;
+                    var email = document.getElementById('emailEdit').value;
+                    var phone = document.getElementById('phoneEdit').value;
+                    var tin = document.getElementById('tinEdit').value;
+                    var select = document.getElementById("statusEdit");
+                    var selectedOption = select.options[select.selectedIndex];
+                    var status = selectedOption.text;
+
+                    var params = `?id=${id}&store_name=${name}&address=${address}&email=${email}&phone_number=${phone}&tin=${tin}&status=${status}`
+                    xhr.open("GET", url + params, true);
+                    xhr.responseType = "text";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // Request completed successfully
+                            var response = xhr.responseText;
+                            $('#editModal').modal('hide');
+                        }
+                    };
+
+                    xhr.send();
                 }
             </script>
 
